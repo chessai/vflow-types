@@ -1,3 +1,0 @@
-module Vflow.Types
-  (
-  ) where

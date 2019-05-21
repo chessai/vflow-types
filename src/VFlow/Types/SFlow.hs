@@ -6,8 +6,8 @@
 {-# LANGUAGE StrictData          #-}
 {-# LANGUAGE TypeOperators       #-}
 
-module Vflow.Types.Sflow
-  ( Sflow(..)
+module VFlow.Types.SFlow
+  ( SFlow(..)
   , ExtRouter(..)
   , ExtSwitch(..)
   , L2(..)
@@ -177,7 +177,7 @@ instance ToJSON SamplesElt where
   toEncoding (SamplesElt {..}) = pairs  ("Drops" .= samplesEltDrops<>"SourceID" .= samplesEltSourceID<>"Records" .= samplesEltRecords<>"Input" .= samplesEltInput<>"SequenceNo" .= samplesEltSequenceNo<>"SamplingRate" .= samplesEltSamplingRate<>"Output" .= samplesEltOutput<>"RecordsNo" .= samplesEltRecordsNo<>"SamplePool" .= samplesEltSamplePool)
 
 
-data Sflow = Sflow { 
+data SFlow = SFlow { 
     sflowIPAddress :: IPv4,
     sflowAgentSubID :: Int,
     sflowIPVersion :: Int,
@@ -189,12 +189,12 @@ data Sflow = Sflow {
   } deriving (Show,Eq,GHC.Generics.Generic)
 
 
-instance FromJSON Sflow where
-  parseJSON (Object v) = Sflow <$> v .:  "IPAddress" <*> v .:  "AgentSubID" <*> v .:  "IPVersion" <*> v .:  "SequenceNo" <*> v .:  "SysUpTime" <*> v .:  "SamplesNo" <*> v .:  "Version" <*> v .:  "Samples"
+instance FromJSON SFlow where
+  parseJSON (Object v) = SFlow <$> v .:  "IPAddress" <*> v .:  "AgentSubID" <*> v .:  "IPVersion" <*> v .:  "SequenceNo" <*> v .:  "SysUpTime" <*> v .:  "SamplesNo" <*> v .:  "Version" <*> v .:  "Samples"
   parseJSON _          = mzero
 
 
-instance ToJSON Sflow where
-  toJSON     (Sflow {..}) = object ["IPAddress" .= sflowIPAddress, "AgentSubID" .= sflowAgentSubID, "IPVersion" .= sflowIPVersion, "SequenceNo" .= sflowSequenceNo, "SysUpTime" .= sflowSysUpTime, "SamplesNo" .= sflowSamplesNo, "Version" .= sflowVersion, "Samples" .= sflowSamples]
-  toEncoding (Sflow {..}) = pairs  ("IPAddress" .= sflowIPAddress<>"AgentSubID" .= sflowAgentSubID<>"IPVersion" .= sflowIPVersion<>"SequenceNo" .= sflowSequenceNo<>"SysUpTime" .= sflowSysUpTime<>"SamplesNo" .= sflowSamplesNo<>"Version" .= sflowVersion<>"Samples" .= sflowSamples)
+instance ToJSON SFlow where
+  toJSON     (SFlow {..}) = object ["IPAddress" .= sflowIPAddress, "AgentSubID" .= sflowAgentSubID, "IPVersion" .= sflowIPVersion, "SequenceNo" .= sflowSequenceNo, "SysUpTime" .= sflowSysUpTime, "SamplesNo" .= sflowSamplesNo, "Version" .= sflowVersion, "Samples" .= sflowSamples]
+  toEncoding (SFlow {..}) = pairs  ("IPAddress" .= sflowIPAddress<>"AgentSubID" .= sflowAgentSubID<>"IPVersion" .= sflowIPVersion<>"SequenceNo" .= sflowSequenceNo<>"SysUpTime" .= sflowSysUpTime<>"SamplesNo" .= sflowSamplesNo<>"Version" .= sflowVersion<>"Samples" .= sflowSamples)
 

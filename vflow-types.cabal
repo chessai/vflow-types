@@ -29,25 +29,24 @@ extra-doc-files:
     README.md
   , CHANGELOG.md
 tested-with:
-  GHC == 8.2.2, GHC == 8.4.4, GHC == 8.6.3
+  GHC == 8.4.4, GHC == 8.6.3
 
 library
   hs-source-dirs:
     src
   exposed-modules:
-    Vflow.Types
-    Vflow.Types.IpFix
-    Vflow.Types.Sflow
-    Vflow.Types.Netflow5
-    Vflow.Types.Netflow9
+    VFlow.Types.IpFix
+    VFlow.Types.SFlow
+    VFlow.Types.NetFlow5
+    VFlow.Types.NetFlow9
   build-depends:
     , aeson >= 1 && < 1.5
     , base >= 4.10.1.0 && < 4.13
     , ip >= 1.5 && < 1.6
-    , text >= 1.2 && < 1.3
-    , json-autotype >= 3 && < 4
     , json-alt >= 1 && < 1.1
+    , json-autotype >= 3 && < 4
     , scientific >= 0.3 && < 0.4
+    , text >= 1.2 && < 1.3
   ghc-options:
     -Wall
     -O2

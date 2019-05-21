@@ -2,23 +2,23 @@
 {-# LANGUAGE DeriveGeneric       #-}
 {-# LANGUAGE OverloadedStrings   #-}
 {-# LANGUAGE RecordWildCards     #-}
-{-# LANGUAGE StrictData          #-}
+{-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE TemplateHaskell     #-}
 {-# LANGUAGE TypeOperators       #-}
 
-module Vflow.Types.IpFix
-  ( IpFix(..)
-  , DataSetsEltElt(..)
+module VFlow.Types.NetFlow9
+  ( NetFlow(..)
   , Header(..)
+  , DataSetsEltElt(..)
   , HexInt(..)
-  )
-  where
+  ) where
 
 import Control.Monad (mzero)
 import Data.Aeson(Value(..), FromJSON(..), ToJSON(..), pairs, (.:), (.=), object)
 import Data.Aeson.AutoType.Alternative
 import Data.Int (Int64)
 import Data.Monoid((<>))
-import Net.IPv4 (IPv4)
+import Net.Types (IPv4)
 import Text.Read (readMaybe)
 import qualified Data.Scientific as Sci
 import qualified Data.Text
@@ -47,11 +47,9 @@ data DataSetsEltElt = DataSetsEltElt {
     dataSetsEltEltI :: Int
   } deriving (Show,Eq,GHC.Generics.Generic)
 
-
 instance FromJSON DataSetsEltElt where
   parseJSON (Object v) = DataSetsEltElt <$> v .:  "V" <*> v .:  "I"
   parseJSON _          = mzero
-
 
 instance ToJSON DataSetsEltElt where
   toJSON     (DataSetsEltElt {..}) = object ["V" .= dataSetsEltEltV, "I" .= dataSetsEltEltI]
@@ -59,36 +57,37 @@ instance ToJSON DataSetsEltElt where
 
 
 data Header = Header { 
-    headerLength :: Int,
-    headerSequenceNo :: Int,
-    headerExportTime :: Int,
+    headerUNIXSecs :: Int,
+    headerSrcID :: Int,
+    headerCount :: Int,
+    headerSysUpTime :: Int,
     headerVersion :: Int,
-    headerDomainID :: Int
+    headerSeqNum :: Int
   } deriving (Show,Eq,GHC.Generics.Generic)
 
 
 instance FromJSON Header where
-  parseJSON (Object v) = Header <$> v .:  "Length" <*> v .:  "SequenceNo" <*> v .:  "ExportTime" <*> v .:  "Version" <*> v .:  "DomainID"
+  parseJSON (Object v) = Header <$> v .:  "UNIXSecs" <*> v .:  "SrcID" <*> v .:  "Count" <*> v .:  "SysUpTime" <*> v .:  "Version" <*> v .:  "SeqNum"
   parseJSON _          = mzero
 
 
 instance ToJSON Header where
-  toJSON     (Header {..}) = object ["Length" .= headerLength, "SequenceNo" .= headerSequenceNo, "ExportTime" .= headerExportTime, "Version" .= headerVersion, "DomainID" .= headerDomainID]
-  toEncoding (Header {..}) = pairs  ("Length" .= headerLength<>"SequenceNo" .= headerSequenceNo<>"ExportTime" .= headerExportTime<>"Version" .= headerVersion<>"DomainID" .= headerDomainID)
+  toJSON     (Header {..}) = object ["UNIXSecs" .= headerUNIXSecs, "SrcID" .= headerSrcID, "Count" .= headerCount, "SysUpTime" .= headerSysUpTime, "Version" .= headerVersion, "SeqNum" .= headerSeqNum]
+  toEncoding (Header {..}) = pairs  ("UNIXSecs" .= headerUNIXSecs<>"SrcID" .= headerSrcID<>"Count" .= headerCount<>"SysUpTime" .= headerSysUpTime<>"Version" .= headerVersion<>"SeqNum" .= headerSeqNum)
 
 
-data IpFix = IpFix { 
-    ipFixAgentID :: IPv4,
-    ipFixHeader :: Header,
-    ipFixDataSets :: ~[[DataSetsEltElt]]
+data NetFlow = NetFlow { 
+    netflowAgentID :: IPv4,
+    netflowHeader :: Header,
+    netflowDataSets :: [[DataSetsEltElt]]
   } deriving (Show,Eq,GHC.Generics.Generic)
 
 
-instance FromJSON IpFix where
-  parseJSON (Object v) = IpFix <$> v .:  "AgentID" <*> v .:  "Header" <*> v .:  "DataSets"
+instance FromJSON NetFlow where
+  parseJSON (Object v) = NetFlow <$> v .:  "AgentID" <*> v .:  "Header" <*> v .:  "DataSets"
   parseJSON _          = mzero
 
 
-instance ToJSON IpFix where
-  toJSON     (IpFix {..}) = object ["AgentID" .= ipFixAgentID, "Header" .= ipFixHeader, "DataSets" .= ipFixDataSets]
-  toEncoding (IpFix {..}) = pairs  ("AgentID" .= ipFixAgentID<>"Header" .= ipFixHeader<>"DataSets" .= ipFixDataSets)
+instance ToJSON NetFlow where
+  toJSON     (NetFlow {..}) = object ["AgentID" .= netflowAgentID, "Header" .= netflowHeader, "DataSets" .= netflowDataSets]
+  toEncoding (NetFlow {..}) = pairs  ("AgentID" .= netflowAgentID<>"Header" .= netflowHeader<>"DataSets" .= netflowDataSets)

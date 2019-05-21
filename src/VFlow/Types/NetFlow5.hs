@@ -6,8 +6,8 @@
 {-# LANGUAGE TypeOperators       #-}
 {-# LANGUAGE DeriveGeneric       #-}
 
-module Vflow.Types.Netflow5
-  ( Netflow5(..)
+module VFlow.Types.NetFlow5
+  ( NetFlow(..)
   , FlowsElt(..)
   , Header(..)
   ) where
@@ -75,19 +75,19 @@ instance ToJSON Header where
   toEncoding (Header {..}) = pairs  ("UNIXSecs" .= headerUNIXSecs<>"Count" .= headerCount<>"EngType" .= headerEngType<>"Version" .= headerVersion<>"SysUpTimeMSecs" .= headerSysUpTimeMSecs<>"UNIXNSecs" .= headerUNIXNSecs<>"SmpInt" .= headerSmpInt<>"SeqNum" .= headerSeqNum<>"EngID" .= headerEngID)
 
 
-data Netflow5 = Netflow5 { 
-    netFlow5AgentID :: IPv4,
-    netFlow5Header :: Header,
-    netFlow5Flows :: [FlowsElt]
+data NetFlow = NetFlow { 
+    netflowAgentID :: IPv4,
+    netflowHeader :: Header,
+    netflowFlows :: [FlowsElt]
   } deriving (Show,Eq,GHC.Generics.Generic)
 
 
-instance FromJSON Netflow5 where
-  parseJSON (Object v) = Netflow5 <$> v .:  "AgentID" <*> v .:  "Header" <*> v .:  "Flows"
+instance FromJSON NetFlow where
+  parseJSON (Object v) = NetFlow <$> v .:  "AgentID" <*> v .:  "Header" <*> v .:  "Flows"
   parseJSON _          = mzero
 
 
-instance ToJSON Netflow5 where
-  toJSON     (Netflow5 {..}) = object ["AgentID" .= netFlow5AgentID, "Header" .= netFlow5Header, "Flows" .= netFlow5Flows]
-  toEncoding (Netflow5 {..}) = pairs  ("AgentID" .= netFlow5AgentID<>"Header" .= netFlow5Header<>"Flows" .= netFlow5Flows)
+instance ToJSON NetFlow where
+  toJSON     (NetFlow {..}) = object ["AgentID" .= netflowAgentID, "Header" .= netflowHeader, "Flows" .= netflowFlows]
+  toEncoding (NetFlow {..}) = pairs  ("AgentID" .= netflowAgentID<>"Header" .= netflowHeader<>"Flows" .= netflowFlows)
 
