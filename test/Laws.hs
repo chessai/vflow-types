@@ -8,16 +8,14 @@ import Data.Word (Word8)
 import Net.Types (IPv4,Mac)
 import Test.QuickCheck
 import Test.QuickCheck.Classes
-import Vflow.Types.IpFix (IpFix(..))
-import Vflow.Types.Netflow5 (Netflow5(..))
-import Vflow.Types.Netflow9 (Netflow9(..))
-import Vflow.Types.Sflow (Sflow(..))
+import VFlow.Types.IpFix (IpFix(..))
+import VFlow.Types.SFlow (SFlow(..))
 import qualified Net.IPv4 as I4
 import qualified Net.Mac as Mac
-import qualified Vflow.Types.IpFix as I
-import qualified Vflow.Types.Netflow5 as N5
-import qualified Vflow.Types.Netflow9 as N9
-import qualified Vflow.Types.Sflow as S
+import qualified VFlow.Types.IpFix as I
+import qualified VFlow.Types.NetFlow5 as N5
+import qualified VFlow.Types.NetFlow9 as N9
+import qualified VFlow.Types.SFlow as S
 
 main :: IO ()
 main = lawsCheckMany laws
@@ -25,9 +23,9 @@ main = lawsCheckMany laws
 laws :: [(String,[Laws])]
 laws =
   [ ("IPFIX", [jsonLaws (Proxy :: Proxy IpFix)])
-  , ("sflow", [jsonLaws (Proxy :: Proxy Sflow)])
-  , ("Netflow v5", [jsonLaws (Proxy :: Proxy Netflow5)])
-  , ("Netflow v9", [jsonLaws (Proxy :: Proxy Netflow9)])
+  , ("sflow", [jsonLaws (Proxy :: Proxy SFlow)])
+  , ("Netflow v5", [jsonLaws (Proxy :: Proxy N5.NetFlow)])
+  , ("Netflow v9", [jsonLaws (Proxy :: Proxy N9.NetFlow)])
   ]
 
 instance (Arbitrary a, Arbitrary b) => Arbitrary (a :|: b) where
@@ -75,8 +73,8 @@ instance Arbitrary S.Records where
 instance Arbitrary S.SamplesElt where
   arbitrary = S.SamplesElt <$> arbitrary <*> arbitrary <*> arbitrary <*> arbitrary <*> arbitrary <*> arbitrary <*> arbitrary <*> arbitrary <*> arbitrary
 
-instance Arbitrary S.Sflow where
-  arbitrary = S.Sflow <$> arbitrary <*> arbitrary <*> arbitrary <*> arbitrary <*> arbitrary <*> arbitrary <*> arbitrary <*> arbitrary
+instance Arbitrary S.SFlow where
+  arbitrary = S.SFlow <$> arbitrary <*> arbitrary <*> arbitrary <*> arbitrary <*> arbitrary <*> arbitrary <*> arbitrary <*> arbitrary
 
 word8 :: Gen Word8
 word8 = arbitrary `suchThat` (\x -> x >= 0 && x <= 255)
@@ -87,8 +85,8 @@ instance Arbitrary N5.FlowsElt where
 instance Arbitrary N5.Header where
   arbitrary = N5.Header <$> arbitrary <*> arbitrary <*> arbitrary <*> arbitrary <*> arbitrary <*> arbitrary <*> arbitrary <*> arbitrary <*> arbitrary
 
-instance Arbitrary N5.Netflow5 where
-  arbitrary = N5.Netflow5 <$> arbitrary <*> arbitrary <*> arbitrary
+instance Arbitrary N5.NetFlow where
+  arbitrary = N5.NetFlow <$> arbitrary <*> arbitrary <*> arbitrary
 
 instance Arbitrary N9.HexInt where
   arbitrary = N9.HexInt <$> arbitrary
@@ -99,5 +97,5 @@ instance Arbitrary N9.DataSetsEltElt where
 instance Arbitrary N9.Header where
   arbitrary = N9.Header <$> arbitrary <*> arbitrary <*> arbitrary <*> arbitrary <*> arbitrary <*> arbitrary
 
-instance Arbitrary N9.Netflow9 where
-  arbitrary = N9.Netflow9 <$> arbitrary <*> arbitrary <*> arbitrary
+instance Arbitrary N9.NetFlow where
+  arbitrary = N9.NetFlow <$> arbitrary <*> arbitrary <*> arbitrary

@@ -6,10 +6,10 @@ module Main (main) where
 import Data.ByteString (ByteString)
 import NeatInterpolation (text)
 import System.Exit (exitFailure, exitSuccess)
-import Vflow.Types.IpFix
-import Vflow.Types.Sflow
-import Vflow.Types.Netflow5
-import Vflow.Types.Netflow9
+import VFlow.Types.IpFix
+import VFlow.Types.SFlow
+import qualified VFlow.Types.NetFlow5 as N5
+import qualified VFlow.Types.NetFlow9 as N9
 import Data.Foldable (fold)
 import qualified Data.Aeson as Aeson
 import qualified Data.Text.Encoding as TE
@@ -21,13 +21,13 @@ ipFix :: Exit
 ipFix = eitherToExit (Aeson.eitherDecodeStrict ipfixJson :: Either String IpFix)
 
 sflow :: Exit
-sflow = eitherToExit (Aeson.eitherDecodeStrict sflowJson :: Either String Sflow)
+sflow = eitherToExit (Aeson.eitherDecodeStrict sflowJson :: Either String SFlow)
 
 netflow5 :: Exit
-netflow5 = eitherToExit (Aeson.eitherDecodeStrict netflow5Json :: Either String Netflow5)
+netflow5 = eitherToExit (Aeson.eitherDecodeStrict netflow5Json :: Either String N5.NetFlow)
 
 netflow9 :: Exit
-netflow9 = eitherToExit (Aeson.eitherDecodeStrict netflow9Json :: Either String Netflow9)
+netflow9 = eitherToExit (Aeson.eitherDecodeStrict netflow9Json :: Either String N9.NetFlow)
 
 eitherToExit :: Either a b -> Exit
 eitherToExit = either (const ExitFail) (const ExitSucc)
