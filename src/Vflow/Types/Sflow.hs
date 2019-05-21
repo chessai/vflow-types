@@ -20,7 +20,6 @@ module Vflow.Types.Sflow
 
 import Control.Monad (mzero)
 import Data.Aeson (Value(..), FromJSON(..), ToJSON(..), pairs, (.:), (.=), object)
-import Data.Text (Text)
 import Net.Types (IPv4, Mac)
 import qualified GHC.Generics
 
@@ -179,7 +178,7 @@ instance ToJSON SamplesElt where
 
 
 data Sflow = Sflow { 
-    sflowIPAddress :: Text,
+    sflowIPAddress :: IPv4,
     sflowAgentSubID :: Int,
     sflowIPVersion :: Int,
     sflowSequenceNo :: Int,
