@@ -1,4 +1,4 @@
-{ compiler ? "ghc863"
+{ compiler ? "ghc865"
 , nixpkgs ? (import ./nix/nixpkgs.nix { inherit compiler; })
 }:
 

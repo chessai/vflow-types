@@ -1,11 +1,11 @@
-{ compiler ? "ghc863" }:
+{ compiler }:
 with rec {
   fetchNixpkgs = import ./fetchNixpkgs.nix;
   nixpkgs = fetchNixpkgs {
-    owner  = "layer-3-communications";
+    owner  = "NixOS";
     repo   = "nixpkgs";
-    rev    = "2ac764de78a1e63009143e2ecd88aa378002190f";
-    sha256 = "0j0hrzr9b57ifwfhggpzm43zcf6wcsj8ffxv6rz7ni7ar1x99x2c";
+    rev    = "4e7693618cfbf901b176c2061bb885aa674f2169";
+    sha256 = "096lygipaj9wcpz2c6a13kw5fggshq8xaynh3ka05n1l5zzshdd5";
   };
 };
 import nixpkgs {
@@ -15,6 +15,7 @@ import nixpkgs {
         overrides = import ./overrides.nix { pkgs = self; };
       };
     };
+    allowBroken = true;
   };
   overlays = [ ];
 }
