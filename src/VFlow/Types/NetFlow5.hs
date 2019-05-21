@@ -1,6 +1,4 @@
-
-{-# LANGUAGE TemplateHaskell     #-}
-{-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE BangPatterns        #-}
 {-# LANGUAGE RecordWildCards     #-}
 {-# LANGUAGE OverloadedStrings   #-}
 {-# LANGUAGE TypeOperators       #-}
@@ -19,26 +17,26 @@ import qualified GHC.Generics
 import Net.Types (IPv4)
 
 data FlowsElt = FlowsElt { 
-    flowsEltDstAsNum :: Int,
-    flowsEltStartTime :: Int,
-    flowsEltL3Octets :: Int,
-    flowsEltTCPFlags :: Int,
-    flowsEltDstAddr :: IPv4,
-    flowsEltTos :: Int,
-    flowsEltPadding1 :: Int,
-    flowsEltNextHop :: IPv4,
-    flowsEltSrcPort :: Int,
-    flowsEltInput :: Int,
-    flowsEltPktCount :: Int,
-    flowsEltOutput :: Int,
-    flowsEltDstMask :: Int,
-    flowsEltDstPort :: Int,
-    flowsEltEndTime :: Int,
-    flowsEltPadding2 :: Int,
-    flowsEltSrcMask :: Int,
-    flowsEltSrcAsNum :: Int,
-    flowsEltSrcAddr :: IPv4,
-    flowsEltProtType :: Int
+    flowsEltDstAsNum :: !Int,
+    flowsEltStartTime :: !Int,
+    flowsEltL3Octets :: !Int,
+    flowsEltTCPFlags :: !Int,
+    flowsEltDstAddr :: !IPv4,
+    flowsEltTos :: !Int,
+    flowsEltPadding1 :: !Int,
+    flowsEltNextHop :: !IPv4,
+    flowsEltSrcPort :: !Int,
+    flowsEltInput :: !Int,
+    flowsEltPktCount :: !Int,
+    flowsEltOutput :: !Int,
+    flowsEltDstMask :: !Int,
+    flowsEltDstPort :: !Int,
+    flowsEltEndTime :: !Int,
+    flowsEltPadding2 :: !Int,
+    flowsEltSrcMask :: !Int,
+    flowsEltSrcAsNum :: !Int,
+    flowsEltSrcAddr :: !IPv4,
+    flowsEltProtType :: !Int
   } deriving (Show,Eq,GHC.Generics.Generic)
 
 
@@ -53,15 +51,15 @@ instance ToJSON FlowsElt where
 
 
 data Header = Header { 
-    headerUNIXSecs :: Int,
-    headerCount :: Int,
-    headerEngType :: Int,
-    headerVersion :: Int,
-    headerSysUpTimeMSecs :: Int,
-    headerUNIXNSecs :: Int,
-    headerSmpInt :: Int,
-    headerSeqNum :: Int,
-    headerEngID :: Int
+    headerUNIXSecs :: !Int,
+    headerCount :: !Int,
+    headerEngType :: !Int,
+    headerVersion :: !Int,
+    headerSysUpTimeMSecs :: !Int,
+    headerUNIXNSecs :: !Int,
+    headerSmpInt :: !Int,
+    headerSeqNum :: !Int,
+    headerEngID :: !Int
   } deriving (Show,Eq,GHC.Generics.Generic)
 
 
@@ -76,8 +74,8 @@ instance ToJSON Header where
 
 
 data NetFlow = NetFlow { 
-    netflowAgentID :: IPv4,
-    netflowHeader :: Header,
+    netflowAgentID :: !IPv4,
+    netflowHeader :: !Header,
     netflowFlows :: [FlowsElt]
   } deriving (Show,Eq,GHC.Generics.Generic)
 

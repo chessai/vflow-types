@@ -1,8 +1,7 @@
-
+{-# LANGUAGE BangPatterns        #-}
 {-# LANGUAGE DeriveGeneric       #-}
 {-# LANGUAGE OverloadedStrings   #-}
 {-# LANGUAGE RecordWildCards     #-}
-{-# LANGUAGE StrictData          #-}
 {-# LANGUAGE TypeOperators       #-}
 
 module VFlow.Types.IpFix
@@ -43,8 +42,8 @@ instance ToJSON HexInt where
   toEncoding (HexInt x) = toEncoding x
 
 data DataSetsEltElt = DataSetsEltElt { 
-    dataSetsEltEltV :: IPv4 :|: HexInt,
-    dataSetsEltEltI :: Int
+    dataSetsEltEltV :: !(IPv4 :|: HexInt),
+    dataSetsEltEltI :: !Int
   } deriving (Show,Eq,GHC.Generics.Generic)
 
 
@@ -59,11 +58,11 @@ instance ToJSON DataSetsEltElt where
 
 
 data Header = Header { 
-    headerLength :: Int,
-    headerSequenceNo :: Int,
-    headerExportTime :: Int,
-    headerVersion :: Int,
-    headerDomainID :: Int
+    headerLength :: !Int,
+    headerSequenceNo :: !Int,
+    headerExportTime :: !Int,
+    headerVersion :: !Int,
+    headerDomainID :: !Int
   } deriving (Show,Eq,GHC.Generics.Generic)
 
 
@@ -78,9 +77,9 @@ instance ToJSON Header where
 
 
 data IpFix = IpFix { 
-    ipFixAgentID :: IPv4,
-    ipFixHeader :: Header,
-    ipFixDataSets :: ~[[DataSetsEltElt]]
+    ipFixAgentID :: !IPv4,
+    ipFixHeader :: !Header,
+    ipFixDataSets :: [[DataSetsEltElt]]
   } deriving (Show,Eq,GHC.Generics.Generic)
 
 

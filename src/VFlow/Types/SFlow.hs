@@ -1,9 +1,7 @@
-
+{-# LANGUAGE BangPatterns        #-}
 {-# LANGUAGE DeriveGeneric       #-}
 {-# LANGUAGE OverloadedStrings   #-}
 {-# LANGUAGE RecordWildCards     #-}
-{-# LANGUAGE ScopedTypeVariables #-}
-{-# LANGUAGE StrictData          #-}
 {-# LANGUAGE TypeOperators       #-}
 
 module VFlow.Types.SFlow
@@ -24,9 +22,9 @@ import Net.Types (IPv4, Mac)
 import qualified GHC.Generics
 
 data ExtRouter = ExtRouter { 
-    extRouterNextHop :: IPv4,
-    extRouterDstMask :: Int,
-    extRouterSrcMask :: Int
+    extRouterNextHop :: !IPv4,
+    extRouterDstMask :: !Int,
+    extRouterSrcMask :: !Int
   } deriving (Show,Eq,GHC.Generics.Generic)
 
 
@@ -41,10 +39,10 @@ instance ToJSON ExtRouter where
 
 
 data ExtSwitch = ExtSwitch { 
-    extSwitchDstPriority :: Int,
-    extSwitchSrcVlan :: Int,
-    extSwitchSrcPriority :: Int,
-    extSwitchDstVlan :: Int
+    extSwitchDstPriority :: !Int,
+    extSwitchSrcVlan :: !Int,
+    extSwitchSrcPriority :: !Int,
+    extSwitchDstVlan :: !Int
   } deriving (Show,Eq,GHC.Generics.Generic)
 
 
@@ -59,10 +57,10 @@ instance ToJSON ExtSwitch where
 
 
 data L2 = L2 { 
-    l2Vlan :: Int,
-    l2EtherType :: Int,
-    l2DstMAC :: Mac,
-    l2SrcMAC :: Mac
+    l2Vlan :: !Int,
+    l2EtherType :: !Int,
+    l2DstMAC :: !Mac,
+    l2SrcMAC :: !Mac
   } deriving (Show,Eq,GHC.Generics.Generic)
 
 
@@ -77,17 +75,17 @@ instance ToJSON L2 where
 
 
 data L3 = L3 { 
-    l3TTL :: Int,
-    l3Flags :: Int,
-    l3TotalLen :: Int,
-    l3Checksum :: Int,
-    l3TOS :: Int,
-    l3Dst :: IPv4,
-    l3Protocol :: Int,
-    l3Src :: IPv4,
-    l3Version :: Int,
-    l3ID :: Int,
-    l3FragOff :: Int
+    l3TTL :: !Int,
+    l3Flags :: !Int,
+    l3TotalLen :: !Int,
+    l3Checksum :: !Int,
+    l3TOS :: !Int,
+    l3Dst :: !IPv4,
+    l3Protocol :: !Int,
+    l3Src :: !IPv4,
+    l3Version :: !Int,
+    l3ID :: !Int,
+    l3FragOff :: !Int
   } deriving (Show,Eq,GHC.Generics.Generic)
 
 
@@ -102,11 +100,11 @@ instance ToJSON L3 where
 
 
 data L4 = L4 { 
-    l4Flags :: Int,
-    l4DataOffset :: Int,
-    l4SrcPort :: Int,
-    l4Reserved :: Int,
-    l4DstPort :: Int
+    l4Flags :: !Int,
+    l4DataOffset :: !Int,
+    l4SrcPort :: !Int,
+    l4Reserved :: !Int,
+    l4DstPort :: !Int
   } deriving (Show,Eq,GHC.Generics.Generic)
 
 
@@ -121,9 +119,9 @@ instance ToJSON L4 where
 
 
 data RawHeader = RawHeader { 
-    rawHeaderL2 :: L2,
-    rawHeaderL3 :: L3,
-    rawHeaderL4 :: L4
+    rawHeaderL2 :: !L2,
+    rawHeaderL3 :: !L3,
+    rawHeaderL4 :: !L4
   } deriving (Show,Eq,GHC.Generics.Generic)
 
 
@@ -138,9 +136,9 @@ instance ToJSON RawHeader where
 
 
 data Records = Records { 
-    recordsExtRouter :: ExtRouter,
-    recordsExtSwitch :: ExtSwitch,
-    recordsRawHeader :: RawHeader
+    recordsExtRouter :: !ExtRouter,
+    recordsExtSwitch :: !ExtSwitch,
+    recordsRawHeader :: !RawHeader
   } deriving (Show,Eq,GHC.Generics.Generic)
 
 
@@ -155,15 +153,15 @@ instance ToJSON Records where
 
 
 data SamplesElt = SamplesElt { 
-    samplesEltDrops :: Int,
-    samplesEltSourceID :: Int,
-    samplesEltRecords :: Records,
-    samplesEltInput :: Int,
-    samplesEltSequenceNo :: Int,
-    samplesEltSamplingRate :: Int,
-    samplesEltOutput :: Int,
-    samplesEltRecordsNo :: Int,
-    samplesEltSamplePool :: Int
+    samplesEltDrops :: !Int,
+    samplesEltSourceID :: !Int,
+    samplesEltRecords :: !Records,
+    samplesEltInput :: !Int,
+    samplesEltSequenceNo :: !Int,
+    samplesEltSamplingRate :: !Int,
+    samplesEltOutput :: !Int,
+    samplesEltRecordsNo :: !Int,
+    samplesEltSamplePool :: !Int
   } deriving (Show,Eq,GHC.Generics.Generic)
 
 
@@ -178,13 +176,13 @@ instance ToJSON SamplesElt where
 
 
 data SFlow = SFlow { 
-    sflowIPAddress :: IPv4,
-    sflowAgentSubID :: Int,
-    sflowIPVersion :: Int,
-    sflowSequenceNo :: Int,
-    sflowSysUpTime :: Int,
-    sflowSamplesNo :: Int,
-    sflowVersion :: Int,
+    sflowIPAddress :: !IPv4,
+    sflowAgentSubID :: !Int,
+    sflowIPVersion :: !Int,
+    sflowSequenceNo :: !Int,
+    sflowSysUpTime :: !Int,
+    sflowSamplesNo :: !Int,
+    sflowVersion :: !Int,
     sflowSamples :: [SamplesElt]
   } deriving (Show,Eq,GHC.Generics.Generic)
 

@@ -1,9 +1,7 @@
-
+{-# LANGUAGE BangPatterns        #-}
 {-# LANGUAGE DeriveGeneric       #-}
 {-# LANGUAGE OverloadedStrings   #-}
 {-# LANGUAGE RecordWildCards     #-}
-{-# LANGUAGE ScopedTypeVariables #-}
-{-# LANGUAGE TemplateHaskell     #-}
 {-# LANGUAGE TypeOperators       #-}
 
 module VFlow.Types.NetFlow9
@@ -43,8 +41,8 @@ instance ToJSON HexInt where
   toEncoding (HexInt x) = toEncoding x
 
 data DataSetsEltElt = DataSetsEltElt { 
-    dataSetsEltEltV :: IPv4 :|: HexInt,
-    dataSetsEltEltI :: Int
+    dataSetsEltEltV :: !(IPv4 :|: HexInt),
+    dataSetsEltEltI :: !Int
   } deriving (Show,Eq,GHC.Generics.Generic)
 
 instance FromJSON DataSetsEltElt where
@@ -57,12 +55,12 @@ instance ToJSON DataSetsEltElt where
 
 
 data Header = Header { 
-    headerUNIXSecs :: Int,
-    headerSrcID :: Int,
-    headerCount :: Int,
-    headerSysUpTime :: Int,
-    headerVersion :: Int,
-    headerSeqNum :: Int
+    headerUNIXSecs :: !Int,
+    headerSrcID :: !Int,
+    headerCount :: !Int,
+    headerSysUpTime :: !Int,
+    headerVersion :: !Int,
+    headerSeqNum :: !Int
   } deriving (Show,Eq,GHC.Generics.Generic)
 
 
@@ -77,8 +75,8 @@ instance ToJSON Header where
 
 
 data NetFlow = NetFlow { 
-    netflowAgentID :: IPv4,
-    netflowHeader :: Header,
+    netflowAgentID :: !IPv4,
+    netflowHeader :: !Header,
     netflowDataSets :: [[DataSetsEltElt]]
   } deriving (Show,Eq,GHC.Generics.Generic)
 
