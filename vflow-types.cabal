@@ -65,7 +65,7 @@ library
     VFlow.Types.NetFlow9
   build-depends:
     , aeson >= 1 && < 1.5
-    , base >= 4.10.1.0 && < 4.13
+    , base >= 4.10.1 && < 4.13
     , ip >= 1.5 && < 1.6
     , json-alt >= 1 && < 1.1
     , json-autotype >= 3 && < 4
@@ -87,6 +87,8 @@ test-suite unit-tests
     , text
     , aeson
     , neat-interpolation
+  default-language:
+    Haskell2010
 
 test-suite laws
   type: exitcode-stdio-1.0
@@ -99,6 +101,8 @@ test-suite laws
     , quickcheck-classes
     , json-alt
     , ip
+  default-language:
+    Haskell2010
 
 source-repository head
   type:
